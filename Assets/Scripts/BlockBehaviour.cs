@@ -7,6 +7,7 @@ public class BlockBehaviour : MonoBehaviour
     protected Rigidbody2D rgbd;
     // Start is called before the first frame update
     public bool Spawned;
+    public PlayerEntityBehaviour player;
     private void Awake()
     {
         rgbd = GetComponent<Rigidbody2D>();
@@ -16,6 +17,7 @@ public class BlockBehaviour : MonoBehaviour
     void Start()
     {
         rgbd = GetComponent<Rigidbody2D>();
+        player = FindObjectOfType<PlayerEntityBehaviour>();
     }
 
     // Update is called once per frame
@@ -27,6 +29,7 @@ public class BlockBehaviour : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        player.AddScore(100);
         Destroy(gameObject);
     }
 
