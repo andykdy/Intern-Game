@@ -45,6 +45,13 @@ public class PlayerController : MonoBehaviour
         rgbd.AddForce(rgbd.velocity * -0.5f);
     }
     
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        gameObject.transform.position = new Vector3(0f,-2.5f,-1f);
+        rgbd.velocity = Vector2.zero;
+        GameObject.FindGameObjectWithTag("PlayerEntity").GetComponent<PlayerEntityBehaviour>().LoseLife();
+    }
+    
     private void OnMouseDrag()
     {
         currState = PlayerState.Dragging;

@@ -7,7 +7,7 @@ public class BlockBehaviour : MonoBehaviour
     protected Rigidbody2D rgbd;
     // Start is called before the first frame update
     public bool Spawned;
-    public PlayerEntityBehaviour player;
+    protected PlayerEntityBehaviour player;
     private void Awake()
     {
         rgbd = GetComponent<Rigidbody2D>();
@@ -29,12 +29,17 @@ public class BlockBehaviour : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        player.AddScore(100);
+        var scoreToAdd = Spawned ? 50 : 100;
+        player.AddScore(scoreToAdd);
         Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        if (gameObject.name.Contains("Block") && other.gameObject.name.Contains("Splitter"))
+        {
+            return;
+        }
         float velo = other.rigidbody.velocity.magnitude;
         Vector2 V2 = other.rigidbody.velocity;
         V2.x = (float)((other.transform.position.x - transform.position.x)* 0.8);
@@ -49,5 +54,10 @@ public class BlockBehaviour : MonoBehaviour
     public void setToSpawned()
     {
         Spawned = true;
+    }
+
+    public void setMassValue(float massVal)
+    {
+        rgbd.mass = massVal;
     }
 }

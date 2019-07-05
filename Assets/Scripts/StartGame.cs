@@ -10,11 +10,8 @@ public class StartGame : MonoBehaviour
     // Start is called before the first frame update
     public void loadTest()
     {
-        SceneManager.LoadScene("Scenes/MainGame");
-    }
-    public void StartPlayer()
-    {
         Instantiate(PlayerEntity);
+        SceneManager.LoadScene("Scenes/MainGame");
     }
 
 }

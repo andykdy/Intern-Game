@@ -13,6 +13,12 @@ public class SplitterBehaviour : BlockBehaviour
         Spawned = true;
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        var scoreToAdd = Spawned ? 50 : 100;
+        player.AddScore(scoreToAdd);
+        Destroy(gameObject);
+    }
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Blocks") && !other.gameObject.GetComponent<BlockBehaviour>().Spawned)
@@ -26,10 +32,12 @@ public class SplitterBehaviour : BlockBehaviour
             Vector2 leftPosition = (Vector2)other.transform.position + newtrajectory;
             Vector2 rightPosition = (Vector2) other.transform.position - newtrajectory;
             
-            GameObject foobar = Instantiate(blockPrefab, new Vector3(leftPosition.x, leftPosition.y, 0), Quaternion.identity);
-            GameObject barfoo = Instantiate(blockPrefab, new Vector3(rightPosition.x, rightPosition.y, 0), Quaternion.identity);
+            GameObject foobar = Instantiate(blockPrefab, new Vector3(leftPosition.x, leftPosition.y, -5), Quaternion.identity);
+            GameObject barfoo = Instantiate(blockPrefab, new Vector3(rightPosition.x, rightPosition.y, -5), Quaternion.identity);
             foobar.transform.localScale *= 0.5f;
             barfoo.transform.localScale *= 0.5f;
+            foobar.GetComponent<BlockBehaviour>().setMassValue(0.5f);
+            barfoo.GetComponent<BlockBehaviour>().setMassValue(0.5f);
             foobar.GetComponent<BlockBehaviour>().setToSpawned();
             barfoo.GetComponent<BlockBehaviour>().setToSpawned();
             Destroy(other.gameObject);
