@@ -11,12 +11,12 @@ public class SplitterBehaviour : BlockBehaviour
     {
         rgbd = GetComponent<Rigidbody2D>();
         Spawned = true;
+        player = FindObjectOfType<PlayerEntityBehaviour>();
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        var scoreToAdd = Spawned ? 50 : 100;
-        player.AddScore(scoreToAdd);
+        player.AddScore(100);
         Destroy(gameObject);
     }
     private void OnCollisionEnter2D(Collision2D other)
@@ -26,8 +26,8 @@ public class SplitterBehaviour : BlockBehaviour
             Vector2 block = other.transform.position;
             Vector2 splitter = gameObject.transform.position;
             Vector2 trajectory = block - splitter;
-            float newx = trajectory.y/2;
-            float newy = trajectory.x/2;
+            float newx = trajectory.x * Mathf.Cos(Mathf.PI/2)/2.0f;
+            float newy = trajectory.x * Mathf.Sin(Mathf.PI/2)/2.0f;
             Vector2 newtrajectory = new Vector2(newx,newy);
             Vector2 leftPosition = (Vector2)other.transform.position + newtrajectory;
             Vector2 rightPosition = (Vector2) other.transform.position - newtrajectory;
@@ -40,17 +40,16 @@ public class SplitterBehaviour : BlockBehaviour
             barfoo.GetComponent<BlockBehaviour>().setMassValue(0.5f);
             foobar.GetComponent<BlockBehaviour>().setToSpawned();
             barfoo.GetComponent<BlockBehaviour>().setToSpawned();
+            foobar.GetComponent<BlockBehaviour>().setVelocity(new Vector2(2*trajectory.x* Mathf.Cos(Mathf.PI/6), 2*trajectory.y* Mathf.Sin(Mathf.PI/6)));
+            barfoo.GetComponent<BlockBehaviour>().setVelocity(new Vector2(2*trajectory.x* Mathf.Cos(-Mathf.PI/6), 2*trajectory.y* Mathf.Sin(-Mathf.PI/6)));
             Destroy(other.gameObject);
         }
         float velo = other.rigidbody.velocity.magnitude;
         Vector2 V2 = other.rigidbody.velocity;
-        V2.x = (float) ((other.transform.position.x - transform.position.x) * 0.5);
-        V2.y = (float) ((other.transform.position.y - transform.position.y) * 0.5);
+        V2.x = (other.transform.position.x - transform.position.x) * 0.5f;
+        V2.y = (other.transform.position.y - transform.position.y) * 0.5f;
         other.rigidbody.velocity = V2;
-        if (other.rigidbody.velocity.magnitude < velo)
-        {
-            other.rigidbody.velocity *= velo / other.rigidbody.velocity.magnitude;
-        }
+        
         
     }
 }

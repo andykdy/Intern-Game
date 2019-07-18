@@ -36,19 +36,14 @@ public class BlockBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (gameObject.name.Contains("Block") && other.gameObject.name.Contains("Splitter"))
+        if (other.gameObject.name.Contains("Splitter"))
         {
             return;
         }
-        float velo = other.rigidbody.velocity.magnitude;
         Vector2 V2 = other.rigidbody.velocity;
-        V2.x = (float)((other.transform.position.x - transform.position.x)* 0.8);
-        V2.y = (float)((other.transform.position.y - transform.position.y)* 0.8);
-        other.rigidbody.velocity = V2;
-        if(other.rigidbody.velocity.magnitude < velo)
-        {
-            other.rigidbody.velocity *= velo/other.rigidbody.velocity.magnitude;
-        }
+        V2.x = (float)((other.transform.position.x - transform.position.x));
+        V2.y = (float)((other.transform.position.y - transform.position.y));
+        other.rigidbody.velocity = other.gameObject.name.Contains("Player")? V2 * 0.8f: V2;
     }
 
     public void setToSpawned()
@@ -59,5 +54,10 @@ public class BlockBehaviour : MonoBehaviour
     public void setMassValue(float massVal)
     {
         rgbd.mass = massVal;
+    }
+
+    public void setVelocity(Vector2 vel)
+    {
+        rgbd.velocity = vel;
     }
 }
