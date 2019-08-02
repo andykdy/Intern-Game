@@ -11,7 +11,7 @@ public class StartGame : MonoBehaviour
     public void loadTest()
     {
         Instantiate(PlayerEntity);
-        SceneManager.LoadScene("Scenes/MainGame");
+        SceneManager.LoadScene("Scenes/Level1");
     }
 
 }

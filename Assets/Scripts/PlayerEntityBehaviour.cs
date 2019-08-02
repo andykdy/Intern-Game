@@ -47,20 +47,4 @@ public class PlayerEntityBehaviour : MonoBehaviour
         return playerLife;
     }
     
-//    void OnEnable()
-//    {
-//        SceneManager.sceneLoaded += OnSceneLoaded;
-//    }
-//    
-//    void OnDisable()
-//    {
-//        Debug.Log("OnDisable");
-//        SceneManager.sceneLoaded -= OnSceneLoaded;
-//    }
-//
-//    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-//    {
-//        Instance.scoreText = new Text();
-//    }
-    
 }

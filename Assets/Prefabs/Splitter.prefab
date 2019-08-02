@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f392e47fa8756234f8e396af3331adf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Spawned: 0
+  spawned: 0
+  triggered: 0
   blockPrefab: {fileID: 8327593762529931135, guid: 9998f13526edd5743b805b86daf1ee4c,
     type: 3}

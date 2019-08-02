@@ -6,18 +6,24 @@ public class BlockBehaviour : MonoBehaviour
 {
     protected Rigidbody2D rgbd;
     // Start is called before the first frame update
-    public bool Spawned;
+    public bool spawned;
+    public bool triggered;
     protected PlayerEntityBehaviour player;
-    private void Awake()
+    protected float bounceMagnitude;
+    protected void Awake()
     {
         rgbd = GetComponent<Rigidbody2D>();
-        rgbd.velocity += new Vector2(Random.Range(0,1),Random.Range(0,1));
+        player = FindObjectOfType<PlayerEntityBehaviour>();
+        triggered = false;
+        bounceMagnitude = 2.0f;
     }
 
     void Start()
     {
         rgbd = GetComponent<Rigidbody2D>();
         player = FindObjectOfType<PlayerEntityBehaviour>();
+        triggered = false;
+        bounceMagnitude = 2.0f;
     }
 
     // Update is called once per frame
@@ -27,9 +33,9 @@ public class BlockBehaviour : MonoBehaviour
     }
 
 
-    private void OnTriggerExit2D(Collider2D other)
+    protected void OnTriggerExit2D(Collider2D other)
     {
-        var scoreToAdd = Spawned ? 50 : 100;
+        var scoreToAdd = triggered? 0 : spawned ? 75 : 100;
         player.AddScore(scoreToAdd);
         Destroy(gameObject);
     }
@@ -43,12 +49,17 @@ public class BlockBehaviour : MonoBehaviour
         Vector2 V2 = other.rigidbody.velocity;
         V2.x = (float)((other.transform.position.x - transform.position.x));
         V2.y = (float)((other.transform.position.y - transform.position.y));
-        other.rigidbody.velocity = other.gameObject.name.Contains("Player")? V2 * 0.8f: V2;
+        other.rigidbody.velocity = V2;
     }
 
     public void setToSpawned()
     {
-        Spawned = true;
+        spawned = true;
+    }
+
+    public void setToTriggered()
+    {
+        triggered = true;
     }
 
     public void setMassValue(float massVal)
@@ -60,4 +71,9 @@ public class BlockBehaviour : MonoBehaviour
     {
         rgbd.velocity = vel;
     }
+    public float getMagnitude()
+    {
+        return rgbd.velocity.magnitude;
+    }
+    
 }
